@@ -1,0 +1,197 @@
+/* ------------------------------------------------------------------
+   Film Kelime Defteri — koyu, mobil öncelikli sinema teması
+   Palet: gece salonu grisi + projeksiyon kehribarı + perde beyazı
+------------------------------------------------------------------- */
+:root {
+  --bg: #101014;          /* salon karanlığı */
+  --surface: #17171d;     /* kart yüzeyi */
+  --surface-2: #1f1f27;   /* yükseltilmiş yüzey */
+  --line: #2a2a33;
+  --text: #edeae4;        /* perde beyazı */
+  --muted: #8f8f9a;
+  --amber: #e8b44a;       /* projeksiyon ışığı */
+  --amber-ink: #1a1305;
+  --danger: #d46a5f;
+  --radius: 14px;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.hidden { display: none !important; }
+
+/* --- Üst çubuk --- */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 8px;
+  padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar h1 {
+  flex: 1; margin: 0;
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 600; letter-spacing: 0.2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.icon-btn {
+  background: none; border: none; color: var(--text);
+  font-size: 20px; padding: 6px 10px; cursor: pointer; border-radius: 10px;
+}
+.icon-btn:active { background: var(--surface-2); }
+
+.screen { padding: 16px 14px 90px; max-width: 720px; margin: 0 auto; }
+
+/* --- Film grid (ana sayfa) --- */
+.film-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 14px;
+}
+.film-card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); overflow: hidden; cursor: pointer;
+  transition: transform .12s ease;
+}
+.film-card:active { transform: scale(.97); }
+.film-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; background: var(--surface-2); }
+.film-card .film-card-name {
+  padding: 8px 10px 10px;
+  font-family: var(--font-display); font-size: 15px; font-weight: 500;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.film-card .film-card-count { padding: 0 10px 10px; color: var(--muted); font-size: 12px; }
+
+.fab {
+  position: fixed; right: 18px; bottom: calc(18px + env(safe-area-inset-bottom));
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--amber); color: var(--amber-ink);
+  border: none; font-size: 28px; line-height: 1; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(232,180,74,.35);
+}
+.fab:active { transform: scale(.94); }
+
+/* --- Boş durumlar --- */
+.empty { text-align: center; padding: 60px 24px; }
+.empty-title { font-family: var(--font-display); font-size: 22px; margin: 0 0 8px; }
+.empty-sub { color: var(--muted); font-size: 14px; margin: 6px 0; }
+
+/* --- Butonlar & alanlar --- */
+.btn {
+  border: none; border-radius: 12px; padding: 12px 16px;
+  font-family: var(--font-body); font-size: 15px; font-weight: 600;
+  cursor: pointer;
+}
+.btn-primary { background: var(--amber); color: var(--amber-ink); }
+.btn-ghost { background: transparent; color: var(--amber); border: 1px solid var(--line); }
+.btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--line); width: 100%; margin-top: 28px; }
+.btn:active { opacity: .85; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+
+.search-row { display: flex; gap: 8px; }
+input[type="search"], input[type="text"], input[type="password"] {
+  width: 100%; padding: 12px 14px;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--line); border-radius: 12px;
+  font-size: 16px; font-family: var(--font-body);
+}
+input:focus { outline: 2px solid var(--amber); outline-offset: 1px; border-color: transparent; }
+
+.field { display: block; margin: 16px 0; }
+.field span { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.field em { font-style: normal; opacity: .7; }
+.hint { color: var(--muted); font-size: 13px; }
+
+/* --- TMDb sonuçları --- */
+.tmdb-results { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.tmdb-item {
+  display: flex; gap: 12px; align-items: center;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 8px; cursor: pointer;
+}
+.tmdb-item:active { background: var(--surface-2); }
+.tmdb-item img { width: 52px; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px; background: var(--surface-2); }
+.tmdb-item .t { font-weight: 600; }
+.tmdb-item .y { color: var(--muted); font-size: 13px; }
+
+/* --- Chat --- */
+.chat-messages { display: flex; flex-direction: column; gap: 10px; padding-bottom: 8px; }
+.msg { max-width: 85%; padding: 10px 14px; border-radius: 16px; font-size: 15px; white-space: pre-wrap; }
+.msg-user { align-self: flex-end; background: var(--amber); color: var(--amber-ink); border-bottom-right-radius: 4px; }
+.msg-ai { align-self: flex-start; background: var(--surface-2); border-bottom-left-radius: 4px; }
+.msg-provider { align-self: flex-start; color: var(--muted); font-size: 11px; margin: -6px 0 0 6px; }
+
+.chat-inputbar { display: flex; gap: 8px; margin-top: 14px; }
+.btn-collect {
+  width: 100%; margin-top: 12px;
+  background: transparent; color: var(--amber);
+  border: 1.5px dashed var(--amber); border-radius: 12px;
+}
+
+/* --- Detay sayfası --- */
+.detail-hero { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px; }
+.detail-poster { width: 110px; aspect-ratio: 2/3; object-fit: cover; border-radius: var(--radius); background: var(--surface-2); }
+.detail-title { font-family: var(--font-display); font-size: 24px; font-weight: 600; margin: 0 0 4px; }
+.detail-meta { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+
+.section-label {
+  font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); margin: 26px 0 10px;
+}
+
+.word-list { display: flex; flex-direction: column; gap: 8px; }
+.word-item {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; padding: 10px 14px;
+}
+.word-item b { font-weight: 600; color: var(--amber); }
+.word-item .m { color: var(--text); font-size: 14px; margin-top: 2px; }
+
+/* İmza öğe: replikler altyazı kartı gibi — letterbox şeridi üstünde
+   ortalanmış perde-beyazı metin */
+.quote-list { display: flex; flex-direction: column; gap: 12px; }
+.quote-item {
+  background: #000; border-radius: 10px;
+  padding: 22px 18px 14px; text-align: center;
+  border: 1px solid var(--line);
+}
+.quote-item .line {
+  font-family: var(--font-display); font-size: 17px; line-height: 1.45;
+  color: #f4f2ec; text-shadow: 0 1px 2px rgba(0,0,0,.8);
+}
+.quote-item .line::before { content: "“"; color: var(--amber); }
+.quote-item .line::after { content: "”"; color: var(--amber); }
+.quote-item .ctx { margin-top: 10px; color: var(--muted); font-size: 12.5px; }
+
+/* --- Yükleme & toast --- */
+.loading { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; padding: 10px 2px; }
+.spinner {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid var(--line); border-top-color: var(--amber);
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.toast {
+  position: fixed; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  background: var(--surface-2); border: 1px solid var(--line);
+  color: var(--text); padding: 10px 18px; border-radius: 999px;
+  font-size: 14px; max-width: 90vw; text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5); z-index: 50;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

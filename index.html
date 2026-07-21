@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Film Kelime Defteri</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#101014">
+  <!-- iOS Safari: Ana Ekrana Ekle → tam ekran -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Kelime Defteri">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" href="icon-192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Üst çubuk -->
+  <header class="topbar">
+    <button id="backBtn" class="icon-btn hidden" aria-label="Geri">←</button>
+    <h1 id="topbarTitle">Kelime Defteri</h1>
+    <button id="settingsBtn" class="icon-btn" aria-label="Ayarlar">⚙</button>
+  </header>
+
+  <main id="app">
+
+    <!-- ANA SAYFA: film grid -->
+    <section id="screen-home" class="screen">
+      <div id="filmGrid" class="film-grid"></div>
+      <div id="homeEmpty" class="empty hidden">
+        <p class="empty-title">Henüz film yok</p>
+        <p class="empty-sub">Bir film ekle, izlerken bilmediğin kelimeleri sor, sonunda "Topla" ile defterine kaydet.</p>
+      </div>
+      <button id="addFilmFab" class="fab" aria-label="Film ekle">+</button>
+    </section>
+
+    <!-- FİLM EKLE -->
+    <section id="screen-add" class="screen hidden">
+      <div class="search-row">
+        <input id="tmdbQuery" type="search" placeholder="Film / dizi adı yaz…" autocomplete="off">
+        <button id="tmdbSearchBtn" class="btn btn-primary">Ara</button>
+      </div>
+      <p id="tmdbHint" class="hint hidden">TMDb API anahtarı gerekli — Ayarlar'dan ekle.</p>
+      <div id="tmdbLoading" class="loading hidden"><span class="spinner"></span> TMDb'de aranıyor…</div>
+      <div id="tmdbResults" class="tmdb-results"></div>
+    </section>
+
+    <!-- FİLM CHAT -->
+    <section id="screen-chat" class="screen hidden">
+      <div id="chatMessages" class="chat-messages"></div>
+      <div id="chatLoading" class="loading hidden"><span class="spinner"></span> Cevap bekleniyor…</div>
+      <div class="chat-inputbar">
+        <input id="chatInput" type="text" placeholder="Kelime veya ifade sor…" autocomplete="off">
+        <button id="chatSendBtn" class="btn btn-primary">Gönder</button>
+      </div>
+      <button id="collectBtn" class="btn btn-collect">Topla — deftere kaydet</button>
+      <div id="collectStatus" class="loading hidden"></div>
+    </section>
+
+    <!-- FİLM DETAY -->
+    <section id="screen-detail" class="screen hidden">
+      <div class="detail-hero">
+        <img id="detailPoster" class="detail-poster" alt="">
+        <div>
+          <h2 id="detailTitle" class="detail-title"></h2>
+          <p id="detailMeta" class="detail-meta"></p>
+          <button id="reopenChatBtn" class="btn btn-ghost">Sohbeti aç →</button>
+        </div>
+      </div>
+
+      <h3 class="section-label">Kelimeler</h3>
+      <div id="wordList" class="word-list"></div>
+      <p id="wordsEmpty" class="empty-sub hidden">Henüz kelime yok — sohbette sor, sonra "Topla".</p>
+
+      <h3 class="section-label">Öne çıkan diyaloglar</h3>
+      <div id="quoteList" class="quote-list"></div>
+      <p id="quotesEmpty" class="empty-sub hidden">Replik bulunamadı.</p>
+
+      <button id="deleteFilmBtn" class="btn btn-danger">Filmi sil</button>
+    </section>
+
+    <!-- AYARLAR -->
+    <section id="screen-settings" class="screen hidden">
+      <p class="hint">Anahtarlar sadece bu cihazda (localStorage) saklanır. Dolu olanlar sırayla denenir.</p>
+      <label class="field"><span>Groq API Key <em>(birincil)</em></span>
+        <input id="keyGroq" type="password" placeholder="gsk_…" autocomplete="off"></label>
+      <label class="field"><span>Google Gemini API Key <em>(ikincil · replik aramada web search)</em></span>
+        <input id="keyGemini" type="password" placeholder="AIza…" autocomplete="off"></label>
+      <label class="field"><span>OpenRouter API Key <em>(son çare)</em></span>
+        <input id="keyOpenrouter" type="password" placeholder="sk-or-…" autocomplete="off"></label>
+      <label class="field"><span>TMDb API Key <em>(film arama & posterler)</em></span>
+        <input id="keyTmdb" type="password" placeholder="TMDb v3 key" autocomplete="off"></label>
+      <button id="saveKeysBtn" class="btn btn-primary">Kaydet</button>
+    </section>
+
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
