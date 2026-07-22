@@ -108,6 +108,14 @@ input[type="search"], input[type="text"], input[type="password"] {
 }
 input:focus { outline: 2px solid var(--amber); outline-offset: 1px; border-color: transparent; }
 
+textarea {
+  width: 100%; padding: 12px 14px; margin-bottom: 12px;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--line); border-radius: 12px;
+  font-size: 14px; font-family: ui-monospace, monospace; resize: vertical;
+}
+textarea:focus { outline: 2px solid var(--amber); outline-offset: 1px; border-color: transparent; }
+
 .field { display: block; margin: 16px 0; }
 .field span { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
 .field em { font-style: normal; opacity: .7; }
